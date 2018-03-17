@@ -1,5 +1,3 @@
-;; variables
-
 (c-add-style "clang-format"
              '("bsd"
                (c-basic-offset . 2)     ; Guessed value
