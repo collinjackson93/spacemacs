@@ -31,11 +31,9 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     salt
      sql
-     protobuf
-     (bt-laser :variables
-               bt-laser-source-dir "/build/cjackson/Laser"
-               bt-laser-build-dir "/build/cjackson/LaserBuild")
+     bt-laser
      yaml
      python
      ;; ----------------------------------------------------------------
@@ -45,21 +43,15 @@ values."
      ;; ----------------------------------------------------------------
      helm
      (auto-completion :variables
+                      auto-completion-return-key-behavior 'nil
                       auto-completion-tab-key-behavior 'complete)
-     semantic
-     ;; (c-c++ :variables
-     ;;        c-c++-default-mode-for-headers 'c++-mode
-     ;;        c-c++-enable-clang-support t
-     ;;        clang-format-style "file")
+     (semantic :variables
+               global-semantic-idle-summary-mode 0)
      ;; better-defaults
      emacs-lisp
      git
      ;; markdown
      ;; org
-     ;; (shell :variables
-     ;;        shell-default-shell 'ansi-term
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
      ;; spell-checking
      syntax-checking
      (version-control :variables
@@ -69,7 +61,8 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(feature-mode)
+   dotspacemacs-additional-packages '(feature-mode
+                                      protobuf-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -326,17 +319,8 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq projectile-enable-caching t)
   (setq make-backup-files nil)
-  ;; (golden-ratio-mode 1)
   (spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)
   (global-git-commit-mode t)
-  (setq compilation-finish-functions 'compile-autoclose)
-  (defun compile-autoclose (buffer string)
-    (cond ((string-match "finished" string)
-           (bury-buffer "*compilation*")
-           (winner-undo)
-           (message "Build successful."))
-          (t
-           (message "Compilation exited abnormally: %s" string))))
   (setq feature-default-language "gherkin")
   (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
   )
@@ -350,7 +334,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (protobuf-mode sql-indent feature-mode flycheck-clang-tidy flycheck-clangcheck flycheck-rtags company-rtags flycheck-irony company-irony helm-rtags rtags cmake-ide levenshtein auto-complete-clang irony xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl flycheck-ycmd flycheck-pos-tip pos-tip flycheck stickyfunc-enhance srefactor disaster company-ycmd ycmd request-deferred let-alist deferred company-c-headers cmake-mode clang-format yaml-mode smeargle reveal-in-osx-finder pbcopy osx-trash osx-dictionary orgit magit-gitflow launchctl helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (salt-mode mmm-jinja2 mmm-mode ghub protobuf-mode sql-indent feature-mode flycheck-clang-tidy flycheck-clangcheck flycheck-rtags company-rtags flycheck-irony company-irony helm-rtags rtags cmake-ide levenshtein auto-complete-clang irony xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl flycheck-ycmd flycheck-pos-tip pos-tip flycheck stickyfunc-enhance srefactor disaster company-ycmd ycmd request-deferred let-alist deferred company-c-headers cmake-mode clang-format yaml-mode smeargle reveal-in-osx-finder pbcopy osx-trash osx-dictionary orgit magit-gitflow launchctl helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy evil-magit magit magit-popup git-commit with-editor company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

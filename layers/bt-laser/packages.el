@@ -26,16 +26,12 @@
 (defconst bt-laser-packages
   '(cc-mode
     clang-format
-    cmake-ide
     cmake-mode
     company
-    (company-rtags :location "/usr/local/share/emacs/site-lisp/rtags")
     flycheck
-    flycheck-clangcheck
-    ;; flycheck-clang-tidy
+    ;; Mark the location of these so they get picked up when a new rtags version is installed
+    (company-rtags :location "/usr/local/share/emacs/site-lisp/rtags")
     (flycheck-rtags :location "/usr/local/share/emacs/site-lisp/rtags")
-    gdb-mi
-    helm-make
     (helm-rtags :location "/usr/local/share/emacs/site-lisp/rtags")
     (rtags :location "/usr/local/share/emacs/site-lisp/rtags")))
 
@@ -51,17 +47,6 @@
     :config
     (setq clang-format-style "file")))
 
-
-(defun bt-laser/init-cmake-ide ()
-  (use-package cmake-ide
-    :config
-    (setq cmake-ide-make-command "taskset -c 2-32 make -j32")
-    (setq cmake-ide-cmake-opts "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCTAGS_ENABLED=False")
-    (setq cmake-ide-header-search-other-file nil)
-    (setq cmake-ide-header-search-first-including nil)
-    (setq cmake-ide-project-dir bt-laser-source-dir)
-    (setq cmake-ide-build-dir bt-laser-build-dir)
-    (cmake-ide-setup)))
 
 (defun bt-laser/init-cmake-mode ()
   (use-package cmake-mode
@@ -90,43 +75,12 @@
     (add-hook 'c++-mode-hook 'flycheck-mode)
     (add-hook 'c-mode-hook 'flycheck-mode)))
 
-(defun bt-laser/init-flycheck-clangcheck ()
-  (use-package flycheck-clangcheck
-    :config
-    (setq flycheck-clangcheck-analyze t)
-    (setq-default flycheck-clangcheck-build-path bt-laser-build-dir)))
-
-;; (defun bt-laser/init-flycheck-clang-tidy ()
-;;   (use-package flycheck-clang-tidy
-;;     :config
-;;     (setq flycheck-clang-tidy-build-path bt-laser-build-dir)))
-
 (defun bt-laser/init-flycheck-rtags ()
   (use-package flycheck-rtags
     :config
     (rtags-set-periodic-reparse-timeout 2.0)
     (add-hook 'c-mode-hook #'my-flycheck-setup)
     (add-hook 'c++-mode-hook #'my-flycheck-setup)))
-
-(defun bt-laser/init-gdb-mi ()
-  (use-package gdb-mi
-    :defer t
-    :init
-    (setq
-     ;; use gdb-many-windows by default when `M-x gdb'
-     gdb-many-windows t
-     ;; Non-nil means display source file containing the main routine at startup
-     ;; gdb-show-main t
-     )))
-
-(defun bt-laser/post-init-helm-make ()
-  (use-package helm-make
-    :config
-    ;; TODO Make this relative path configurable
-    (setq-default helm-make-build-dir "../LaserBuild")
-    (setq helm-make-executable "taskset -c 2-32 make")
-    (setq helm-make-arguments "-j32")
-    (setq helm-make-fuzzy-matching t)))
 
 (defun bt-laser/init-helm-rtags ()
   (use-package helm-rtags))
@@ -139,7 +93,6 @@
 
 (defun my-flycheck-setup ()
   (flycheck-select-checker 'rtags)
-  ;; (flycheck-add-next-checker 'rtags 'c/c++-clangcheck)
   (setq-local flycheck-check-syntax-automatically nil)
   (setq-local flycheck-highlighting-mode nil))
 
@@ -155,4 +108,5 @@
   (interactive)
   (save-excursion
     (clang-format (region-beginning) (region-end))
+    (deactivate-mark) ; If the region is already formatted, then the mark will show
     (message "Formatted region")))

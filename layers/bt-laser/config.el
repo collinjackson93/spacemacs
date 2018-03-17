@@ -1,11 +1,5 @@
 ;; variables
 
-(defvar bt-laser-build-dir nil
-  "Absolute path to your build directory")
-
-(defvar bt-laser-source-dir nil
-  "Absolute path to your source directory")
-
 (c-add-style "clang-format"
              '("bsd"
                (c-basic-offset . 2)     ; Guessed value
