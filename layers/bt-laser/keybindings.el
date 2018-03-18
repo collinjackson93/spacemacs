@@ -12,6 +12,7 @@
     "gg" 'rtags-find-symbol-at-point
     "gu" 'rtags-find-references-at-point
     "rv" 'rtags-find-virtuals-at-point
+    "ri" 'rtags-check-includes
     "rp" 'rtags-location-stack-back
     "rn" 'rtags-location-stack-forward
     "rP" 'rtags-print-dependencies
