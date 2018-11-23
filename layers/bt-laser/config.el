@@ -2,7 +2,7 @@
              '("bsd"
                (c-basic-offset . 2)     ; Guessed value
                (c-offsets-alist
-                (access-label . *)      ; Guessed value
+                (access-label . /)      ; Guessed value
                 (block-close . 0)       ; Guessed value
                 (case-label . +)        ; Guessed value
                 (class-close . 0)       ; Guessed value
