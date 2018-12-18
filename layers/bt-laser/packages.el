@@ -58,8 +58,7 @@
   (use-package company)
   :config
   (add-hook 'c++-mode-hook 'company-mode)
-  (add-hook 'c-mode-hook 'company-mode)
-  (spacemacs|add-company-hook cmake-mode))
+  (add-hook 'c-mode-hook 'company-mode))
 
 (defun bt-laser/init-company-rtags ()
   (use-package company-rtags
