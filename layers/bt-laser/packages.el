@@ -29,7 +29,6 @@
     cmake-mode
     company
     flycheck
-    flycheck-clang-analyzer
     modern-cpp-font-lock
     ;; Mark the location of these so they get picked up when a new rtags version is installed
     (company-rtags :location "/usr/local/share/emacs/site-lisp/rtags")
@@ -82,12 +81,6 @@
     (rtags-set-periodic-reparse-timeout 2.0)
     (add-hook 'c-mode-hook #'my-flycheck-setup)
     (add-hook 'c++-mode-hook #'my-flycheck-setup)))
-
-(defun bt-laser/init-flycheck-clang-analyzer ()
-  (use-package flycheck-clang-analyzer
-    :ensure t
-    :after flycheck
-    :config (flycheck-clang-analyzer-setup)))
 
 (defun bt-laser/init-modern-cpp-font-lock ()
   (use-package modern-cpp-font-lock
