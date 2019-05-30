@@ -62,6 +62,7 @@ This function should only modify configuration layer settings."
      git
      ;; markdown
      multiple-cursors
+     ;; treemacs
      neotree
      ;; org
      ;; spell-checking
@@ -473,6 +474,7 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq projectile-enable-caching nil)
+  (setq projectile-indexing-method 'hybrid)
   (setq make-backup-files nil)
   ;; (spacemacs/set-leader-keys "qq" 'spacemacs/frame-killer)
   (global-git-commit-mode t)
