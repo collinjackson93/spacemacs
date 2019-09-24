@@ -34,17 +34,11 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers
    '(
      sql
-     bt-laser
-     ;; (c-c++ :variables
-     ;;        c-c++-backend 'rtags)
-     ;; (c-c++ :variables
-     ;;        c-c++-default-mode-for-headers 'c++-mode
-     ;;        c-c++-backend 'lsp-cquery
-     ;;        c-c++-lsp-executable "/build/cjackson/cquery/build/cquery"
-     ;;        c-c++-adopt-subprojects t
-     ;;        ;; cquery-extra-init-params '(:compilationDatabaseCommand "/home/cjackson/getcompdb")
-     ;;        ;; c-c++-lsp-sem-highlight-rainbow t
-     ;;        c-c++-lsp-cache-dir "/build/cjackson/cqueryCache/")
+     ;; bt-laser
+     (c-c++ :variables
+            c-c++-default-mode-for-headers 'c++-mode
+            c-c++-adopt-subprojects t
+            c-c++-backend 'rtags)
      yaml
      python
      ;; ----------------------------------------------------------------
@@ -52,13 +46,12 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; ivy
      helm
      (auto-completion :variables
                       auto-completion-return-key-behavior 'nil
                       auto-completion-tab-key-behavior 'complete)
-     (semantic :variables
-               global-semantic-idle-summary-mode 0)
+     ;; (semantic :variables
+     ;;           global-semantic-idle-summary-mode 0)
      ;; better-defaults
      emacs-lisp
      git
