@@ -33,7 +33,7 @@
     ;; Mark the location of these so they get picked up when a new rtags version is installed
     (company-rtags :location "/usr/local/share/emacs/site-lisp/rtags")
     (flycheck-rtags :location "/usr/local/share/emacs/site-lisp/rtags")
-    (helm-rtags :location "/usr/local/share/emacs/site-lisp/rtags")
+    (ivy-rtags :location "/usr/local/share/emacs/site-lisp/rtags")
     (rtags :location "/usr/local/share/emacs/site-lisp/rtags")))
 
 (defun bt-laser/init-cc-mode ()
@@ -67,7 +67,8 @@
     (setq rtags-completions-enabled t)
     (push 'company-rtags company-backends)
     (global-company-mode)
-    ))
+    (add-hook 'c++-mode-hook 'rtags-start-process-unless-running)
+    (add-hook 'c-mode-hook 'rtags-start-process-unless-running)))
 
 (defun bt-laser/post-init-flycheck ()
   (use-package flycheck
@@ -87,14 +88,14 @@
     :config
     (modern-c++-font-lock-global-mode t)))
 
-(defun bt-laser/init-helm-rtags ()
-  (use-package helm-rtags))
+(defun bt-laser/init-ivy-rtags ()
+  (use-package ivy-rtags))
 
 (defun bt-laser/init-rtags ()
   (use-package rtags
     :config
     (setq rtags-suspend-during-compilation t)
-    (setq rtags-display-result-backend 'helm)))
+    (setq rtags-display-result-backend 'ivy)))
 
 (defun my-flycheck-setup ()
   (flycheck-select-checker 'rtags)
