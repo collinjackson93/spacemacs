@@ -490,6 +490,7 @@ before packages are loaded."
   (global-git-commit-mode t)
   (setq feature-default-language "gherkin")
   (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
+  (setq global-auto-revert-mode t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

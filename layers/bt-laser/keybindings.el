@@ -18,10 +18,11 @@
     "rP" 'rtags-print-dependencies
     "rE" 'rtags-preprocess-file
     "rR" 'rtags-rename-symbol
-    "rt" 'rtags-symbol-type
     "rd" 'rtags-reparse-file
-    "rs" 'rtags-display-summary
+    "rt" 'rtags-display-summary
     "rf" 'rtags-fix-fixit-at-point
     "rh" 'rtags-print-class-hierarchy
     "ra" 'rtags-print-source-arguments
+    "rs" 'rtags-start-process-unless-running
+    "rq" 'rtags-quit-rdm
     ))

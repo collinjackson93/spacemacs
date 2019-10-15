@@ -94,7 +94,6 @@
 (defun bt-laser/init-rtags ()
   (use-package rtags
     :config
-    (setq rtags-suspend-during-compilation t)
     (setq rtags-display-result-backend 'ivy)))
 
 (defun my-flycheck-setup ()
