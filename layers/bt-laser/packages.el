@@ -46,7 +46,11 @@
 (defun bt-laser/init-clang-format ()
   (use-package clang-format
     :config
-    (setq clang-format-style "file")))
+    (setq clang-format-style "file")
+    (add-hook 'c++-mode-hook
+              (lambda ()
+                (add-hook 'before-save-hook 'clang-format-buffer nil t)))
+    ))
 
 
 (defun bt-laser/init-cmake-mode ()

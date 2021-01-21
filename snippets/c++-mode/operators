@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: operators
+# key: ops
+# --
+$1(const $1& other) = delete;
+$1& operator=(const $1& other) = delete;
+$1($1&& other) noexcept = default;
+$1& operator=($1&& other) noexcept = default;
